@@ -1,0 +1,43 @@
+//DONNES
+
+1 .SELECT e.id, e.first_name, e.last_name
+FROM employee e
+WHERE e.team_id IS NULL;
+
+2. SELECT e.id, e.first_name, e.last_name
+FROM employee e
+LEFT JOIN leave l ON e.id = l.employee_id
+WHERE l.id IS NULL;
+
+3.SELECT 
+    l.id AS leave_id,
+    l.start_date,
+    l.end_date,
+    e.first_name,
+    e.last_name,
+    t.name AS team_name
+FROM leave l
+JOIN employee e ON l.employee_id = e.id
+LEFT JOIN team t ON e.team_id = t.id;
+
+4.SELECT 
+    ct.label AS contract_type,
+    COUNT(e.id) AS employee_count
+FROM contract_type ct
+LEFT JOIN employee e ON e.contract_type_id = ct.id
+GROUP BY ct.label;
+
+5.SELECT COUNT(DISTINCT l.employee_id) AS employees_on_leave_today
+FROM leave l
+WHERE CURRENT_DATE BETWEEN l.start_date AND l.end_date;
+
+6.SELECT 
+    e.id,
+    e.first_name,
+    e.last_name,
+    t.name AS team_name
+FROM leave l
+JOIN employee e ON l.employee_id = e.id
+LEFT JOIN team t ON e.team_id = t.id
+WHERE CURRENT_DATE BETWEEN l.start_date AND l.end_date;
+
